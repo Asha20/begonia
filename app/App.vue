@@ -1,14 +1,14 @@
 <template>
   <div class="app container-fluid">
     <div class="row">
-      <div class="col-sm-3">
+      <div class="col-md-3">
         <note-list
           :notes="notes">
         </note-list>
       </div>
 
-      <div class="col-sm-offset-1 col-sm-8">
-        
+      <div class="col-md-offset-1 col-md-8">
+        <note-display></note-display>
       </div>
     </div>
   </div>
@@ -17,9 +17,11 @@
 <script>
   import Events from "./events";
   import Firebase from "firebase";
-  import NoteList from "./components/NoteList.vue"
 
-  let config = {
+  import NoteList from "./components/NoteList.vue";
+  import NoteDisplay from "./components/NoteDisplay.vue";
+
+  const config = {
     apiKey: "AIzaSyCzplRModOK-ir_ybndG10S6croPq1I8fU",
     authDomain: "begonia-cbe77.firebaseapp.com",
     databaseURL: "https://begonia-cbe77.firebaseio.com",
@@ -34,20 +36,25 @@
 
   export default {
     components: {
-      NoteList
+      NoteList,
+      NoteDisplay
     },
 
     data() {
       return {
+        selectedNote: {},
+
         notes: [
-          {name: "Note1"},
-          {name: "Note2"}
+          {name: "Note1", content: "abacaba"},
+          {name: "Note2", content: "cabababa"}
         ]
-      }
+      };
     },
 
     created() {
-      Events.on("noteSelected", index => console.log(index));
+      Events.on("noteSelected", function(index, note) {
+        this.selectedNote = note;
+      });
     }
   };
 </script>
