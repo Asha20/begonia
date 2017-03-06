@@ -7,22 +7,20 @@
           <h4 class="modal-title" id="note-editor-label">New Note</h4>
         </div>
         <div class="modal-body">
-          <form>
-            <div id="note-editor__title-holder" class="form-group">
-              <label for="note-editor__title">Title:</label>
-              <input type="text" class="form-control" id="note-editor__title" v-model="title">
-              <span id="note-editor__title-message" class="help-block hide">This field is required.</span>
-            </div>
-            <div id="note-editor__content-holder" class="form-group">
-              <label for="note-editor__content">Content:</label>
-              <textarea class="form-control" id="note-editor__content" v-model="content"></textarea>
-              <span id="note-editor__content-message" class="help-block hide">This field is required.</span>
-            </div>
-          </form>
+          <div id="note-editor__title-holder" class="form-group">
+            <label for="note-editor__title">Title:</label>
+            <input type="text" class="form-control" id="note-editor__title" v-model="title">
+            <span id="note-editor__title-message" class="help-block hide">This field is required.</span>
+          </div>
+          <div id="note-editor__content-holder" class="form-group">
+            <label for="note-editor__content">Content:</label>
+            <textarea class="form-control" id="note-editor__content" v-model="content"></textarea>
+            <span id="note-editor__content-message" class="help-block hide">This field is required.</span>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" @click="createNote">Create Note</button>
+          <button type="button" class="btn btn-primary" @click="addNote">Create Note</button>
         </div>
       </div>
     </div>
@@ -31,55 +29,19 @@
 
 <script>
   import Events from "../events";
+  import validate from "../helpers/ValidateForm";
 
   export default {
     data() {
       return {
         title: "",
-        content: ""
+        content: "",
       }
     },
 
     methods: {
-      validate(conditions) {
-        const statuses = [];
-
-        const check = function({container, condition, message}) {
-          if (condition) {
-            statuses.push({
-              "valid": true,
-              container,
-              message
-            });
-          } else {
-            statuses.push({
-              "valid": false,
-              container,
-              message
-            });
-          }
-        };
-
-        conditions.forEach(condition => check(condition));
-
-        let isSucess = true;
-
-        for (let status of statuses) {
-          if (status.valid) {
-            status.container.removeClass("has-error");
-            status.message.addClass("hide");
-          } else {
-            status.container.addClass("has-error");
-            status.message.removeClass("hide");
-            isSucess = false;
-          }
-        }
-
-        return isSucess;
-      },
-
-      createNote() {
-        const validated = this.validate([
+      addNote() {
+        const tests = [
           {
             container: $("#note-editor__title-holder"),
             condition: this.title !== "",
@@ -90,9 +52,9 @@
             condition: this.content !== "",
             message: $("#note-editor__content-message")
           }
-        ]);
+        ];
 
-        if (validated) {
+        if (validate(tests)) {
           Events.emit("noteCreated", {
             title: this.title,
             content: this.content
@@ -102,7 +64,6 @@
           this.content = "";
           $("#note-editor").modal("hide");
         }
-
       }
     },
 
