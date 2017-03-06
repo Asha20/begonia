@@ -1,6 +1,6 @@
 <template>
   <div class="note-display">
-    <h1>{{ selectedNote.name }}</h1>
+    <h1>{{ selectedNote.title }}</h1>
     {{ selectedNote.content }}
   </div>
 </template>
@@ -15,7 +15,7 @@
       };
     },
 
-    mounted() {
+    created() {
       Events.on("noteSelected", (index, note) => {
         this.selectedNote = note;
       });

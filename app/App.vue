@@ -2,13 +2,12 @@
   <div class="app container-fluid">
     <div class="row">
       <div class="col-md-3">
-        <note-list
-          :notes="notes">
-        </note-list>
+        <note-list :notes="notes"></note-list>
       </div>
 
       <div class="col-md-offset-1 col-md-8">
         <note-display></note-display>
+        <note-editor></note-editor>
       </div>
     </div>
   </div>
@@ -19,6 +18,7 @@
   import Firebase from "firebase";
 
   import NoteList from "./components/NoteList.vue";
+  import NoteEditor from "./components/NoteEditor.vue";
   import NoteDisplay from "./components/NoteDisplay.vue";
 
   const config = {
@@ -37,6 +37,7 @@
   export default {
     components: {
       NoteList,
+      NoteEditor,
       NoteDisplay
     },
 
@@ -45,16 +46,18 @@
         selectedNote: {},
 
         notes: [
-          {name: "Note1", content: "abacaba"},
-          {name: "Note2", content: "cabababa"}
+          {title: "Note1", content: "abacaba"},
+          {title: "Note2", content: "cabababa"}
         ]
       };
     },
 
     created() {
-      Events.on("noteSelected", function(index, note) {
+      Events.on("noteSelected", (index, note) => {
         this.selectedNote = note;
       });
+
+      Events.on("noteCreated", note => this.notes.push(note));
     }
   };
 </script>
