@@ -19,6 +19,12 @@
       Events.on("noteSelected", (index, note) => {
         this.selectedNote = note;
       });
+
+      Events.on("noteDeleted", key => {
+        if (this.selectedNote.key === key) {
+          this.selectedNote = {};
+        }
+      })
     }
   }
 </script>

@@ -19,8 +19,16 @@ let Database = {
 
   addNote(note) {
     const newNote = this.db.ref("notes").push();
-    newNote.set(note);
+    newNote.set({
+      title: note.title,
+      content: note.content,
+      key: newNote.key
+    });
     return newNote;
+  },
+
+  removeNote(key) {
+    this.db.ref("notes").child(key).remove();
   }
 };
 

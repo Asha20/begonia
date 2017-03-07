@@ -5,6 +5,9 @@
             class="list-group-item"
             :class="[index === selected ? 'active' : '']">
       {{ note.title }}
+      <button class="btn btn-danger pull-right" @click.stop="deleteNote(index)">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+      </button>
     </button>
 
     <button class="list-group-item list-group-item-info"
@@ -17,6 +20,7 @@
 
 <script>
   import Events from "../events";
+  import Database from "../database";
 
   export default {
     props: ["notes"],
@@ -31,6 +35,12 @@
       selectNote(index) {
         this.selected = index;
         Events.emit("noteSelected", index, this.notes[index]);
+      },
+
+      deleteNote(index) {
+        const key = this.notes[index].key;
+        Database.removeNote(key);
+        Events.emit("noteDeleted", key);
       },
 
       openEditor() {

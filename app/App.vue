@@ -32,7 +32,7 @@
       return {
         selectedNote: {},
 
-        notes: []
+        notes: {}
       };
     },
 
@@ -42,9 +42,16 @@
       });
 
       Events.on("noteCreated", note => {
-        Database.addNote(note);
-        this.notes.push(note);
+        let newRef = Database.addNote(note);
+        Database.loadNotes(snapshot => this.notes = snapshot.val());
       });
+
+      Events.on("noteDeleted", key => {
+        if (this.selectedNote.key === key) {
+          this.selectedNote = null;
+        }
+        Database.loadNotes(snapshot => this.notes = snapshot.val());
+      })
 
       Database.loadNotes(snapshot => this.notes = snapshot.val());
     }
