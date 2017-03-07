@@ -44,20 +44,20 @@
         const tests = [
           {
             container: $("#note-editor__title-holder"),
-            condition: this.title !== "",
+            condition: this.title.trim() !== "",
             message: $("#note-editor__title-message")
           },
           {
             container: $("#note-editor__content-holder"),
-            condition: this.content !== "",
+            condition: this.content.trim() !== "",
             message: $("#note-editor__content-message")
           }
         ];
 
         if (validate(tests)) {
           Events.emit("noteCreated", {
-            title: this.title,
-            content: this.content
+            title: this.title.trim(),
+            content: this.content.trim()
           });
 
           this.title = "";

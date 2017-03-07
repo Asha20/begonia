@@ -15,24 +15,11 @@
 
 <script>
   import Events from "./events";
-  import Firebase from "firebase";
+  import Database from "./database";
 
   import NoteList from "./components/NoteList.vue";
   import NoteEditor from "./components/NoteEditor.vue";
   import NoteDisplay from "./components/NoteDisplay.vue";
-
-  const config = {
-    apiKey: "AIzaSyCzplRModOK-ir_ybndG10S6croPq1I8fU",
-    authDomain: "begonia-cbe77.firebaseapp.com",
-    databaseURL: "https://begonia-cbe77.firebaseio.com",
-    storageBucket: "begonia-cbe77.appspot.com",
-    messagingSenderId: "656500064171"
-  };
-
-  Firebase.initializeApp(config);
-  const database = Firebase.database();
-
-
 
   export default {
     components: {
@@ -45,10 +32,7 @@
       return {
         selectedNote: {},
 
-        notes: [
-          {title: "Note1", content: "abacaba"},
-          {title: "Note2", content: "cabababa"}
-        ]
+        notes: []
       };
     },
 
@@ -57,7 +41,12 @@
         this.selectedNote = note;
       });
 
-      Events.on("noteCreated", note => this.notes.push(note));
+      Events.on("noteCreated", note => {
+        Database.addNote(note);
+        this.notes.push(note);
+      });
+
+      Database.loadNotes(snapshot => this.notes = snapshot.val());
     }
   };
 </script>
