@@ -1,5 +1,11 @@
 <template>
   <div class="note-list list-group">
+    <button class="list-group-item list-group-item-info"
+            @click="openCategoryEditor()">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Create category
+    </button>
+
     <button v-for="(note, index) in notes"
             @click="selectNote(index)"
             class="list-group-item"
@@ -11,7 +17,7 @@
     </button>
 
     <button class="list-group-item list-group-item-info"
-            @click="openEditor()">
+            @click="openNoteEditor()">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
       Create note
     </button>
@@ -43,8 +49,12 @@
         Events.emit("noteDeleted", key);
       },
 
-      openEditor() {
-        Events.emit("openEditor");
+      openNoteEditor() {
+        Events.emit("openNoteEditor");
+      },
+
+      openCategoryEditor() {
+        Events.emit("openCategoryEditor");
       }
     }
   }

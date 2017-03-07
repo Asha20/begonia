@@ -2,7 +2,7 @@ export default function(tests) {
   const statuses = [];
 
   tests.forEach(test => {
-    if (test.condition) {
+    if (test.conditions.every(Boolean)) {
       statuses.push({
         "valid": true,
         container: test.container,

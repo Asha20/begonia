@@ -7,16 +7,18 @@
           <h4 class="modal-title" id="note-editor-label">New Note</h4>
         </div>
         <div class="modal-body">
-          <div id="note-editor__title-holder" class="form-group">
-            <label for="note-editor__title">Title:</label>
-            <input type="text" class="form-control" id="note-editor__title" v-model="title">
-            <span id="note-editor__title-message" class="help-block hide">This field is required.</span>
-          </div>
-          <div id="note-editor__content-holder" class="form-group">
-            <label for="note-editor__content">Content:</label>
-            <textarea class="form-control" id="note-editor__content" v-model="content"></textarea>
-            <span id="note-editor__content-message" class="help-block hide">This field is required.</span>
-          </div>
+          <form>
+            <div id="note-editor__title-holder" class="form-group">
+              <label for="note-editor__title">Title:</label>
+              <input type="text" class="form-control" id="note-editor__title" v-model="title">
+              <span id="note-editor__title-message" class="help-block hide">This field is required.</span>
+            </div>
+            <div id="note-editor__content-holder" class="form-group">
+              <label for="note-editor__content">Content:</label>
+              <textarea class="form-control" id="note-editor__content" v-model="content"></textarea>
+              <span id="note-editor__content-message" class="help-block hide">This field is required.</span>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -44,12 +46,12 @@
         const tests = [
           {
             container: $("#note-editor__title-holder"),
-            condition: this.title.trim() !== "",
+            conditions: [this.title.trim() !== ""],
             message: $("#note-editor__title-message")
           },
           {
             container: $("#note-editor__content-holder"),
-            condition: this.content.trim() !== "",
+            conditions: [this.content.trim() !== ""],
             message: $("#note-editor__content-message")
           }
         ];
@@ -68,7 +70,7 @@
     },
 
     created() {
-      Events.on("openEditor", () => {
+      Events.on("openNoteEditor", () => {
         $("#note-editor").modal("show");
       });
     }

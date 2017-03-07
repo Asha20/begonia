@@ -8,6 +8,7 @@
       <div class="col-md-offset-1 col-md-8">
         <note-display></note-display>
         <note-editor></note-editor>
+        <category-editor></category-editor>
       </div>
     </div>
   </div>
@@ -19,12 +20,14 @@
 
   import NoteList from "./components/NoteList.vue";
   import NoteEditor from "./components/NoteEditor.vue";
+  import CategoryEditor from "./components/CategoryEditor.vue";
   import NoteDisplay from "./components/NoteDisplay.vue";
 
   export default {
     components: {
       NoteList,
       NoteEditor,
+      CategoryEditor,
       NoteDisplay
     },
 
