@@ -14,7 +14,15 @@ let Database = {
   db: Firebase.database(),
 
   loadNotes(callback) {
-    return this.db.ref("notes").once("value").then(callback);
+    return this.db.ref("notes")
+      .once("value")
+      .then(callback);
+  },
+
+  loadCategories(callback) {
+    return this.db.ref("categories")
+      .once("value")
+      .then(callback);
   },
 
   addNote(note) {
@@ -29,6 +37,20 @@ let Database = {
 
   removeNote(key) {
     this.db.ref("notes").child(key).remove();
+  },
+
+  addCategory(category) {
+    const newCategory = this.db.ref("categories").push();
+    newCategory.set({
+      name: category.name,
+      color: category.color,
+      key: newCategory.key
+    });
+    return newCategory;
+  },
+
+  removeCategory(key) {
+    this.db.ref("categories").child(key).remove();
   }
 };
 

@@ -35,8 +35,23 @@
       return {
         selectedNote: {},
 
+        categories: {},
         notes: {}
       };
+    },
+
+    methods: {
+      updateNotes() {
+        Database.loadNotes(snapshot => {
+          this.notes = snapshot.val();
+        });
+      },
+
+      updateCategories() {
+        Database.loadCategories(snapshot => {
+          this.categories = snapshot.val();
+        });
+      }
     },
 
     created() {
@@ -45,18 +60,23 @@
       });
 
       Events.on("noteCreated", note => {
-        let newRef = Database.addNote(note);
-        Database.loadNotes(snapshot => this.notes = snapshot.val());
+        const newRef = Database.addNote(note);
+        this.updateNotes();
       });
 
       Events.on("noteDeleted", key => {
         if (this.selectedNote.key === key) {
           this.selectedNote = null;
         }
-        Database.loadNotes(snapshot => this.notes = snapshot.val());
+        this.updateNotes();
       })
 
-      Database.loadNotes(snapshot => this.notes = snapshot.val());
+      Events.on("categoryCreated", category => {
+        const newRef = Database.addCategory(category);
+        this.updateCategories();
+      })
+
+      this.updateNotes();
     }
   };
 </script>

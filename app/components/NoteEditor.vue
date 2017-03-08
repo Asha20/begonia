@@ -22,7 +22,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" @click="addNote">Create Note</button>
+          <button type="button" class="btn btn-primary" @click="createNote">Create Note</button>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
     },
 
     methods: {
-      addNote() {
+      createNote() {
         const tests = [
           {
             container: $("#note-editor__title-holder"),
@@ -72,6 +72,9 @@
     created() {
       Events.on("openNoteEditor", () => {
         $("#note-editor").modal("show");
+        $("#note-editor").on("shown.bs.modal", function() {
+          $("#note-editor__title").focus();
+        });
       });
     }
   };
