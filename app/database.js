@@ -27,11 +27,9 @@ let Database = {
 
   addNote(note) {
     const newNote = this.db.ref("notes").push();
-    newNote.set({
-      title: note.title,
-      content: note.content,
+    newNote.set(Object.assign({}, note, {
       key: newNote.key
-    });
+    }));
     return newNote;
   },
 
@@ -41,11 +39,7 @@ let Database = {
 
   addCategory(category) {
     const newCategory = this.db.ref("categories").push();
-    newCategory.set({
-      name: category.name,
-      color: category.color,
-      key: newCategory.key
-    });
+    newCategory.set(Object.assign({}, category));
     return newCategory;
   },
 

@@ -6,12 +6,12 @@
       Create category
     </button>
 
-    <button v-for="(note, index) in notes"
-            @click="selectNote(index)"
+    <button v-for="note in notes"
+            @click="selectNote(note.key)"
             class="list-group-item"
-            :class="[index === selected ? 'active' : '']">
+            :class="[note.key === selected ? 'active' : '']">
       {{ note.title }}
-      <button class="btn btn-danger pull-right" @click.stop="deleteNote(index)">
+      <button class="btn btn-danger pull-right" @click.stop="deleteNote(note.key)">
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
       </button>
     </button>
@@ -38,13 +38,12 @@
     },
 
     methods: {
-      selectNote(index) {
-        this.selected = index;
-        Events.emit("noteSelected", index, this.notes[index]);
+      selectNote(key) {
+        this.selected = key;
+        Events.emit("noteSelected", key, this.notes[key]);
       },
 
-      deleteNote(index) {
-        const key = this.notes[index].key;
+      deleteNote(key) {
         Database.removeNote(key);
         Events.emit("noteDeleted", key);
       },

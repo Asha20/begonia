@@ -51,7 +51,7 @@
         const tests = [
           {
             container: $("#category-editor__name-holder"),
-            conditions: [this.name !== ""],
+            conditions: [this.name.trim() !== ""],
             message: $("#category-editor__name-message")
           },
           {
@@ -63,7 +63,7 @@
 
         if (validate(tests)) {
           Events.emit("categoryCreated", {
-            name: this.name,
+            name: this.name.trim(),
             color: this.color,
           });
 

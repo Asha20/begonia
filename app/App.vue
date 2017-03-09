@@ -7,7 +7,7 @@
 
       <div class="col-md-offset-1 col-md-8">
         <note-display></note-display>
-        <note-editor></note-editor>
+        <note-editor :categories="categories"></note-editor>
         <category-editor></category-editor>
       </div>
     </div>
@@ -77,6 +77,7 @@
       })
 
       this.updateNotes();
+      this.updateCategories();
     }
   };
 </script>
