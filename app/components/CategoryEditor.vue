@@ -46,9 +46,9 @@
       }
     },
 
-    methods: {
-      createCategory() {
-        const tests = [
+    computed: {
+      formTests() {
+        return [
           {
             container: $("#category-editor__name-holder"),
             conditions: [this.name.trim() !== ""],
@@ -60,8 +60,12 @@
             message: $("#category-editor__color-message")
           }
         ];
+      }
+    },
 
-        if (validate(tests)) {
+    methods: {
+      createCategory() {
+        if (validate(this.formTests)) {
           Events.emit("categoryCreated", {
             name: this.name.trim(),
             color: this.color,
@@ -76,6 +80,7 @@
 
     created() {
       Events.on("openCategoryEditor", () => {
+        this.name = "";
         $("#category-editor").modal("show");
         $("#category-editor").on("shown.bs.modal", function() {
           $("#category-editor__name").focus();

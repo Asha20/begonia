@@ -79,8 +79,8 @@ if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var store      = __webpack_require__(30)('wks')
-  , uid        = __webpack_require__(32)
+var store      = __webpack_require__(31)('wks')
+  , uid        = __webpack_require__(33)
   , Symbol     = __webpack_require__(0).Symbol
   , USE_SYMBOL = typeof Symbol == 'function';
 
@@ -138,7 +138,7 @@ exports.default = new _events.EventEmitter();
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP         = __webpack_require__(15)
-  , createDesc = __webpack_require__(28);
+  , createDesc = __webpack_require__(29);
 module.exports = __webpack_require__(9) ? function(object, key, value){
   return dP.f(object, key, createDesc(1, value));
 } : function(object, key, value){
@@ -341,8 +341,8 @@ exports.f = __webpack_require__(9) ? Object.defineProperty : function defineProp
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var shared = __webpack_require__(30)('keys')
-  , uid    = __webpack_require__(32);
+var shared = __webpack_require__(31)('keys')
+  , uid    = __webpack_require__(33);
 module.exports = function(key){
   return shared[key] || (shared[key] = uid(key));
 };
@@ -363,7 +363,7 @@ module.exports = function(it){
 /***/ (function(module, exports, __webpack_require__) {
 
 // to indexed object, toObject with fallback for non-array-like ES3 strings
-var IObject = __webpack_require__(25)
+var IObject = __webpack_require__(26)
   , defined = __webpack_require__(12);
 module.exports = function(it){
   return IObject(defined(it));
@@ -380,7 +380,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _assign = __webpack_require__(41);
+var _assign = __webpack_require__(21);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -409,17 +409,21 @@ var Database = {
   loadCategories: function loadCategories(callback) {
     return this.db.ref("categories").once("value").then(callback);
   },
-  addNote: function addNote(note) {
+  createNote: function createNote(note) {
     var newNote = this.db.ref("notes").push();
     newNote.set((0, _assign2.default)({}, note, {
       key: newNote.key
     }));
     return newNote;
   },
+  editNote: function editNote(note) {
+    this.db.ref("notes").child(note.key).set(note);
+    return note;
+  },
   removeNote: function removeNote(key) {
     this.db.ref("notes").child(key).remove();
   },
-  addCategory: function addCategory(category) {
+  createCategory: function createCategory(category) {
     var newCategory = this.db.ref("categories").push();
     newCategory.set((0, _assign2.default)({}, category));
     return newCategory;
@@ -442,7 +446,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getIterator2 = __webpack_require__(40);
+var _getIterator2 = __webpack_require__(41);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -506,6 +510,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 /***/ }),
 /* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(43), __esModule: true };
+
+/***/ }),
+/* 22 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -515,7 +525,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(14)
@@ -527,7 +537,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports) {
 
 // IE 8- don't enum bug keys
@@ -536,7 +546,7 @@ module.exports = (
 ).split(',');
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global    = __webpack_require__(0)
@@ -602,29 +612,29 @@ $export.R = 128; // real proto method for `library`
 module.exports = $export;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
-var cof = __webpack_require__(21);
+var cof = __webpack_require__(22);
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var LIBRARY        = __webpack_require__(53)
-  , $export        = __webpack_require__(24)
+  , $export        = __webpack_require__(25)
   , redefine       = __webpack_require__(61)
   , hide           = __webpack_require__(4)
   , has            = __webpack_require__(10)
   , Iterators      = __webpack_require__(11)
   , $iterCreate    = __webpack_require__(51)
-  , setToStringTag = __webpack_require__(29)
+  , setToStringTag = __webpack_require__(30)
   , getPrototypeOf = __webpack_require__(58)
   , ITERATOR       = __webpack_require__(1)('iterator')
   , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
@@ -688,19 +698,19 @@ module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED
 };
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
 var $keys       = __webpack_require__(59)
-  , enumBugKeys = __webpack_require__(23);
+  , enumBugKeys = __webpack_require__(24);
 
 module.exports = Object.keys || function keys(O){
   return $keys(O, enumBugKeys);
 };
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports) {
 
 module.exports = function(bitmap, value){
@@ -713,7 +723,7 @@ module.exports = function(bitmap, value){
 };
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var def = __webpack_require__(15).f
@@ -725,7 +735,7 @@ module.exports = function(it, tag, stat){
 };
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(0)
@@ -736,7 +746,7 @@ module.exports = function(key){
 };
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.13 ToObject(argument)
@@ -746,7 +756,7 @@ module.exports = function(it){
 };
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 var id = 0
@@ -756,7 +766,7 @@ module.exports = function(key){
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -765,7 +775,7 @@ __webpack_require__(90)
 
 var Component = __webpack_require__(6)(
   /* script */
-  __webpack_require__(35),
+  __webpack_require__(36),
   /* template */
   __webpack_require__(87),
   /* scopeId */
@@ -794,7 +804,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -7504,7 +7514,7 @@ setTimeout(function () {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(80), __webpack_require__(2)))
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7600,7 +7610,12 @@ exports.default = {
     });
 
     _events2.default.on("noteCreated", function (note) {
-      var newRef = _database2.default.addNote(note);
+      var newRef = _database2.default.createNote(note);
+      _this3.updateNotes();
+    });
+
+    _events2.default.on("noteEdited", function (note) {
+      _database2.default.editNote(note);
       _this3.updateNotes();
     });
 
@@ -7612,7 +7627,7 @@ exports.default = {
     });
 
     _events2.default.on("categoryCreated", function (category) {
-      var newRef = _database2.default.addCategory(category);
+      var newRef = _database2.default.createCategory(category);
       _this3.updateCategories();
     });
 
@@ -7622,7 +7637,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7688,9 +7703,9 @@ exports.default = {
   },
 
 
-  methods: {
-    createCategory: function createCategory() {
-      var tests = [{
+  computed: {
+    formTests: function formTests() {
+      return [{
         container: $("#category-editor__name-holder"),
         conditions: [this.name.trim() !== ""],
         message: $("#category-editor__name-message")
@@ -7699,8 +7714,12 @@ exports.default = {
         conditions: [this.color !== "none"],
         message: $("#category-editor__color-message")
       }];
+    }
+  },
 
-      if ((0, _ValidateForm2.default)(tests)) {
+  methods: {
+    createCategory: function createCategory() {
+      if ((0, _ValidateForm2.default)(this.formTests)) {
         _events2.default.emit("categoryCreated", {
           name: this.name.trim(),
           color: this.color
@@ -7714,7 +7733,10 @@ exports.default = {
   },
 
   created: function created() {
+    var _this = this;
+
     _events2.default.on("openCategoryEditor", function () {
+      _this.name = "";
       $("#category-editor").modal("show");
       $("#category-editor").on("shown.bs.modal", function () {
         $("#category-editor__name").focus();
@@ -7724,7 +7746,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7768,7 +7790,7 @@ exports.default = {
 //
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7777,6 +7799,10 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _assign = __webpack_require__(21);
+
+var _assign2 = _interopRequireDefault(_assign);
 
 var _events = __webpack_require__(3);
 
@@ -7834,6 +7860,7 @@ exports.default = {
 
   data: function data() {
     return {
+      mode: "new",
       title: "",
       content: "",
       selectedCategory: "uncategorized"
@@ -7841,9 +7868,9 @@ exports.default = {
   },
 
 
-  methods: {
-    createNote: function createNote() {
-      var tests = [{
+  computed: {
+    formTests: function formTests() {
+      return [{
         container: $("#note-editor__title-holder"),
         conditions: [this.title.trim() !== ""],
         message: $("#note-editor__title-message")
@@ -7852,13 +7879,24 @@ exports.default = {
         conditions: [this.content.trim() !== ""],
         message: $("#note-editor__content-message")
       }];
+    }
+  },
 
-      if ((0, _ValidateForm2.default)(tests)) {
-        _events2.default.emit("noteCreated", {
+  methods: {
+    confirm: function confirm() {
+      if ((0, _ValidateForm2.default)(this.formTests)) {
+
+        _events2.default.emit(this.mode.name, (0, _assign2.default)({}, {
           title: this.title.trim(),
           content: this.content.trim(),
           category: this.selectedCategory
-        });
+        },
+        // If editing an existing note, also pass
+        // the note key to the event so it knows
+        // which note to modify.
+        this.mode.name === "noteCreated" ? {} : {
+          key: this.mode.note.key
+        }));
 
         this.title = "";
         this.content = "";
@@ -7869,21 +7907,42 @@ exports.default = {
   },
 
   created: function created() {
+    var _this = this;
+
+    $("#note-editor").on("shown.bs.modal", function () {
+      $("#note-editor__title").focus();
+    });
+
     _events2.default.on("openNoteEditor", function () {
       $("#note-editor").modal("show");
-      $("#note-editor").on("shown.bs.modal", function () {
-        $("#note-editor__title").focus();
-      });
+      _this.title = "";
+      _this.content = "";
+
+      _this.mode = {
+        name: "noteCreated"
+      };
 
       // Bootstrap-select won't display the options
       // generated by Vue's v-for unless refreshed.
+      $("#note-editor__category").selectpicker("refresh");
+    });
+
+    _events2.default.on("editNote", function (note) {
+      _this.title = note.title;
+      _this.content = note.content;
+      _this.mode = {
+        name: "noteEdited",
+        note: note
+      };
+
+      $("#note-editor").modal("show");
       $("#note-editor__category").selectpicker("refresh");
     });
   }
 };
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7929,6 +7988,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 exports.default = {
   props: ["notes"],
@@ -7945,6 +8012,9 @@ exports.default = {
       this.selected = key;
       _events2.default.emit("noteSelected", key, this.notes[key]);
     },
+    editNote: function editNote(note) {
+      _events2.default.emit("editNote", note);
+    },
     deleteNote: function deleteNote(key) {
       _database2.default.removeNote(key);
       _events2.default.emit("noteDeleted", key);
@@ -7959,16 +8029,10 @@ exports.default = {
 };
 
 /***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(42), __esModule: true };
-
-/***/ }),
 /* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(43), __esModule: true };
+module.exports = { "default": __webpack_require__(42), __esModule: true };
 
 /***/ }),
 /* 42 */
@@ -8031,7 +8095,7 @@ module.exports = function(IS_INCLUDES){
 /***/ (function(module, exports, __webpack_require__) {
 
 // getting tag from 19.1.3.6 Object.prototype.toString()
-var cof = __webpack_require__(21)
+var cof = __webpack_require__(22)
   , TAG = __webpack_require__(1)('toStringTag')
   // ES3 wrong here
   , ARG = cof(function(){ return arguments; }()) == 'Arguments';
@@ -8090,7 +8154,7 @@ module.exports = __webpack_require__(0).document && document.documentElement;
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(9) && !__webpack_require__(13)(function(){
-  return Object.defineProperty(__webpack_require__(22)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+  return Object.defineProperty(__webpack_require__(23)('div'), 'a', {get: function(){ return 7; }}).a != 7;
 });
 
 /***/ }),
@@ -8100,8 +8164,8 @@ module.exports = !__webpack_require__(9) && !__webpack_require__(13)(function(){
 "use strict";
 
 var create         = __webpack_require__(55)
-  , descriptor     = __webpack_require__(28)
-  , setToStringTag = __webpack_require__(29)
+  , descriptor     = __webpack_require__(29)
+  , setToStringTag = __webpack_require__(30)
   , IteratorPrototype = {};
 
 // 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
@@ -8133,11 +8197,11 @@ module.exports = true;
 "use strict";
 
 // 19.1.2.1 Object.assign(target, source, ...)
-var getKeys  = __webpack_require__(27)
+var getKeys  = __webpack_require__(28)
   , gOPS     = __webpack_require__(57)
   , pIE      = __webpack_require__(60)
-  , toObject = __webpack_require__(31)
-  , IObject  = __webpack_require__(25)
+  , toObject = __webpack_require__(32)
+  , IObject  = __webpack_require__(26)
   , $assign  = Object.assign;
 
 // should work with symbols and should have deterministic property order (V8 bug)
@@ -8172,7 +8236,7 @@ module.exports = !$assign || __webpack_require__(13)(function(){
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject    = __webpack_require__(7)
   , dPs         = __webpack_require__(56)
-  , enumBugKeys = __webpack_require__(23)
+  , enumBugKeys = __webpack_require__(24)
   , IE_PROTO    = __webpack_require__(16)('IE_PROTO')
   , Empty       = function(){ /* empty */ }
   , PROTOTYPE   = 'prototype';
@@ -8180,7 +8244,7 @@ var anObject    = __webpack_require__(7)
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function(){
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(22)('iframe')
+  var iframe = __webpack_require__(23)('iframe')
     , i      = enumBugKeys.length
     , lt     = '<'
     , gt     = '>'
@@ -8218,7 +8282,7 @@ module.exports = Object.create || function create(O, Properties){
 
 var dP       = __webpack_require__(15)
   , anObject = __webpack_require__(7)
-  , getKeys  = __webpack_require__(27);
+  , getKeys  = __webpack_require__(28);
 
 module.exports = __webpack_require__(9) ? Object.defineProperties : function defineProperties(O, Properties){
   anObject(O);
@@ -8242,7 +8306,7 @@ exports.f = Object.getOwnPropertySymbols;
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
 var has         = __webpack_require__(10)
-  , toObject    = __webpack_require__(31)
+  , toObject    = __webpack_require__(32)
   , IE_PROTO    = __webpack_require__(16)('IE_PROTO')
   , ObjectProto = Object.prototype;
 
@@ -8390,7 +8454,7 @@ var addToUnscopables = __webpack_require__(45)
 // 22.1.3.13 Array.prototype.keys()
 // 22.1.3.29 Array.prototype.values()
 // 22.1.3.30 Array.prototype[@@iterator]()
-module.exports = __webpack_require__(26)(Array, 'Array', function(iterated, kind){
+module.exports = __webpack_require__(27)(Array, 'Array', function(iterated, kind){
   this._t = toIObject(iterated); // target
   this._i = 0;                   // next index
   this._k = kind;                // kind
@@ -8420,7 +8484,7 @@ addToUnscopables('entries');
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
-var $export = __webpack_require__(24);
+var $export = __webpack_require__(25);
 
 $export($export.S + $export.F, 'Object', {assign: __webpack_require__(54)});
 
@@ -8433,7 +8497,7 @@ $export($export.S + $export.F, 'Object', {assign: __webpack_require__(54)});
 var $at  = __webpack_require__(62)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
-__webpack_require__(26)(String, 'String', function(iterated){
+__webpack_require__(27)(String, 'String', function(iterated){
   this._t = String(iterated); // target
   this._i = 0;                // next index
 // 21.1.5.2.1 %StringIteratorPrototype%.next()
@@ -9680,7 +9744,7 @@ process.umask = function() { return 0; };
 
 var Component = __webpack_require__(6)(
   /* script */
-  __webpack_require__(36),
+  __webpack_require__(37),
   /* template */
   __webpack_require__(85),
   /* scopeId */
@@ -9714,7 +9778,7 @@ module.exports = Component.exports
 
 var Component = __webpack_require__(6)(
   /* script */
-  __webpack_require__(37),
+  __webpack_require__(38),
   /* template */
   __webpack_require__(89),
   /* scopeId */
@@ -9748,7 +9812,7 @@ module.exports = Component.exports
 
 var Component = __webpack_require__(6)(
   /* script */
-  __webpack_require__(38),
+  __webpack_require__(39),
   /* template */
   __webpack_require__(86),
   /* scopeId */
@@ -9782,7 +9846,7 @@ module.exports = Component.exports
 
 var Component = __webpack_require__(6)(
   /* script */
-  __webpack_require__(39),
+  __webpack_require__(40),
   /* template */
   __webpack_require__(88),
   /* scopeId */
@@ -10116,9 +10180,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "button"
     },
     on: {
-      "click": _vm.createNote
+      "click": _vm.confirm
     }
-  }, [_vm._v("Create Note")])])])])])
+  }, [_vm._v("Confirm")])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "modal-header"
@@ -10207,8 +10271,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.selectNote(note.key)
         }
       }
-    }, [_vm._v("\n    " + _vm._s(note.title) + "\n    "), _c('button', {
-      staticClass: "btn btn-danger pull-right",
+    }, [_vm._v("\n    " + _vm._s(note.title) + "\n    "), _c('div', {
+      staticClass: "btn-group pull-right",
+      attrs: {
+        "role": "group",
+        "aria-label": "Options"
+      }
+    }, [_c('button', {
+      staticClass: "btn btn-info",
+      on: {
+        "click": function($event) {
+          $event.stopPropagation();
+          _vm.editNote(note)
+        }
+      }
+    }, [_c('span', {
+      staticClass: "glyphicon glyphicon-pencil",
+      attrs: {
+        "aria-hidden": "true"
+      }
+    })]), _vm._v(" "), _c('button', {
+      staticClass: "btn btn-danger",
       on: {
         "click": function($event) {
           $event.stopPropagation();
@@ -10220,7 +10303,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "aria-hidden": "true"
       }
-    })])])
+    })])])])
   }), _vm._v(" "), _c('button', {
     staticClass: "list-group-item list-group-item-info",
     on: {
@@ -10562,11 +10645,11 @@ module.exports = function listToStyles (parentId, list) {
 "use strict";
 
 
-var _vue = __webpack_require__(34);
+var _vue = __webpack_require__(35);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _App = __webpack_require__(33);
+var _App = __webpack_require__(34);
 
 var _App2 = _interopRequireDefault(_App);
 

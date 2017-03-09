@@ -60,7 +60,12 @@
       });
 
       Events.on("noteCreated", note => {
-        const newRef = Database.addNote(note);
+        const newRef = Database.createNote(note);
+        this.updateNotes();
+      });
+
+      Events.on("noteEdited", note => {
+        Database.editNote(note);
         this.updateNotes();
       });
 
@@ -69,12 +74,12 @@
           this.selectedNote = null;
         }
         this.updateNotes();
-      })
+      });
 
       Events.on("categoryCreated", category => {
-        const newRef = Database.addCategory(category);
+        const newRef = Database.createCategory(category);
         this.updateCategories();
-      })
+      });
 
       this.updateNotes();
       this.updateCategories();
