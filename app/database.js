@@ -10,7 +10,7 @@ const config = {
 
 Firebase.initializeApp(config);
 
-let Database = {
+const Database = {
   db: Firebase.database(),
 
   loadNotes(callback) {
@@ -53,4 +53,6 @@ let Database = {
   }
 };
 
-export default Database;
+const Auth = Firebase.auth();
+
+export {Database, Auth};

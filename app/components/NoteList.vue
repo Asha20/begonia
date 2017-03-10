@@ -34,7 +34,7 @@
 
 <script>
   import Events from "../events";
-  import Database from "../database";
+  import {Database} from "../database";
 
   export default {
     props: ["notes"],

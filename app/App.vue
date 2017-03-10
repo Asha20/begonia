@@ -1,14 +1,19 @@
 <template>
-  <div class="app container-fluid">
-    <div class="row">
-      <div class="col-md-3">
-        <note-list :notes="notes"></note-list>
-      </div>
+  <div class="app">
+    <login-navigation></login-navigation>
 
-      <div class="col-md-offset-1 col-md-8">
-        <note-display></note-display>
-        <note-editor :categories="categories"></note-editor>
-        <category-editor></category-editor>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
+          <note-list :notes="notes"></note-list>
+        </div>
+
+        <div class="col-md-offset-1 col-md-8">
+          <note-display v-if="user"></note-display>
+          <login-form v-else></login-form>
+          <note-editor :categories="categories"></note-editor>
+          <category-editor></category-editor>
+        </div>
       </div>
     </div>
   </div>
@@ -16,8 +21,10 @@
 
 <script>
   import Events from "./events";
-  import Database from "./database";
+  import {Database, Auth} from "./database";
 
+  import LoginNavigation from "./components/LoginNavigation.vue";
+  import LoginForm from "./components/LoginForm.vue";
   import NoteList from "./components/NoteList.vue";
   import NoteEditor from "./components/NoteEditor.vue";
   import CategoryEditor from "./components/CategoryEditor.vue";
@@ -25,6 +32,8 @@
 
   export default {
     components: {
+      LoginNavigation,
+      LoginForm,
       NoteList,
       NoteEditor,
       CategoryEditor,
@@ -33,6 +42,7 @@
 
     data() {
       return {
+        user: null,
         selectedNote: {},
 
         categories: {},
@@ -81,14 +91,12 @@
         this.updateCategories();
       });
 
+      Auth.onAuthStateChanged(user => {
+        this.user = user;
+      });
+
       this.updateNotes();
       this.updateCategories();
     }
   };
 </script>
-
-<style scoped>
-  .app {
-    padding-top: 30px;
-  }
-</style>
