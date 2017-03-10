@@ -85,7 +85,7 @@
             // If editing an existing note, also pass
             // the note key to the event so it knows
             // which note to modify.
-            this.mode.name === "noteCreated" ? {} :
+            this.mode.name === "Note__save--create" ? {} :
             {
               key: this.mode.note.key
             }
@@ -105,13 +105,13 @@
         $("#note-editor__title").focus();
       });
 
-      Events.on("openNoteEditor", () => {
+      Events.on("Editor__open--note", () => {
         $("#note-editor").modal("show");
         this.title = "";
         this.content = "";
 
         this.mode = {
-          name: "noteCreated"
+          name: "Note__save--create"
         };
 
         // Bootstrap-select won't display the options
@@ -119,11 +119,11 @@
         $("#note-editor__category").selectpicker("refresh");
       });
 
-      Events.on("editNote", note => {
+      Events.on("Note__edit", note => {
         this.title = note.title;
         this.content = note.content;
         this.mode = {
-          name: "noteEdited",
+          name: "Note__save--edit",
           note
         };
 

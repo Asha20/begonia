@@ -66,7 +66,7 @@
     methods: {
       createCategory() {
         if (validate(this.formTests)) {
-          Events.emit("categoryCreated", {
+          Events.emit("Category__create", {
             name: this.name.trim(),
             color: this.color,
           });
@@ -79,7 +79,7 @@
     },
 
     created() {
-      Events.on("openCategoryEditor", () => {
+      Events.on("Editor__open--category", () => {
         this.name = "";
         $("#category-editor").modal("show");
         $("#category-editor").on("shown.bs.modal", function() {

@@ -16,11 +16,11 @@
     },
 
     created() {
-      Events.on("noteSelected", (index, note) => {
+      Events.on("Note__select", (index, note) => {
         this.selectedNote = note;
       });
 
-      Events.on("noteDeleted", key => {
+      Events.on("Note__delete", key => {
         if (this.selectedNote.key === key) {
           this.selectedNote = {};
         }

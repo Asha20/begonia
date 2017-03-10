@@ -48,24 +48,24 @@
     methods: {
       selectNote(key) {
         this.selected = key;
-        Events.emit("noteSelected", key, this.notes[key]);
+        Events.emit("Note__select", key, this.notes[key]);
       },
 
       editNote(note) {
-        Events.emit("editNote", note);
+        Events.emit("Note__edit", note);
       },
 
       deleteNote(key) {
         Database.removeNote(key);
-        Events.emit("noteDeleted", key);
+        Events.emit("Note__delete", key);
       },
 
       openNoteEditor() {
-        Events.emit("openNoteEditor");
+        Events.emit("Editor__open--note");
       },
 
       openCategoryEditor() {
-        Events.emit("openCategoryEditor");
+        Events.emit("Editor__open--category");
       }
     }
   }

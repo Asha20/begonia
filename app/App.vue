@@ -55,16 +55,16 @@
     },
 
     created() {
-      Events.on("noteSelected", (index, note) => {
+      Events.on("Note__select", (index, note) => {
         this.selectedNote = note;
       });
 
-      Events.on("noteCreated", note => {
+      Events.on("Note__save--create", note => {
         const newRef = Database.createNote(note);
         this.updateNotes();
       });
 
-      Events.on("noteEdited", note => {
+      Events.on("Note__save--edit", note => {
         Database.editNote(note);
         this.updateNotes();
       });
@@ -76,7 +76,7 @@
         this.updateNotes();
       });
 
-      Events.on("categoryCreated", category => {
+      Events.on("Category__create", category => {
         const newRef = Database.createCategory(category);
         this.updateCategories();
       });
