@@ -13,43 +13,51 @@ Firebase.initializeApp(config);
 const Database = {
   db: Firebase.database(),
 
-  loadNotes(callback) {
-    return this.db.ref("notes")
+  notes(uid) {
+    return this.db.ref("users/" + uid);
+  },
+
+  categories(uid) {
+    return this.db.ref("categories/" + uid);
+  },
+
+  loadNotes(uid, callback) {
+    return this.notes(uid)
       .once("value")
       .then(callback);
   },
 
-  loadCategories(callback) {
-    return this.db.ref("categories")
+  loadCategories(uid, callback) {
+    return this.categories(uid)
       .once("value")
       .then(callback);
   },
 
-  createNote(note) {
-    const newNote = this.db.ref("notes").push();
+  createNote(uid, note) {
+    const newNote = this.notes(uid).push();
     newNote.set(Object.assign({}, note, {
       key: newNote.key
     }));
     return newNote;
   },
 
-  editNote(note) {
-    this.db.ref("notes").child(note.key).set(note);
+  editNote(uid, note) {
+    this.notes(uid).child(note.key).set(note);
     return note;
   },
 
-  removeNote(key) {
-    this.db.ref("notes").child(key).remove();
+  removeNote(uid, key) {
+    this.notes(uid).child(key).remove();
   },
 
-  createCategory(category) {
-    const newCategory = this.db.ref("categories").push();
+  createCategory(uid, category) {
+    const newCategory = this.categories(uid).push();
     newCategory.set(Object.assign({}, category));
     return newCategory;
   },
 
-  removeCategory(key) {
-    this.db.ref("categories").child(key).remove();
+  removeCategory(uid, key) {
+    this.categories(uid).child(key).remove();
   }
 };
 

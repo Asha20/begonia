@@ -56,7 +56,6 @@
       },
 
       deleteNote(key) {
-        Database.removeNote(key);
         Events.emit("Note__delete", key);
       },
 

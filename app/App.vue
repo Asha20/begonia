@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-3">
-          <note-list :notes="notes"></note-list>
+          <note-list v-if="user" :notes="notes"></note-list>
         </div>
 
         <div class="col-md-offset-1 col-md-8">
@@ -52,13 +52,13 @@
 
     methods: {
       updateNotes() {
-        Database.loadNotes(snapshot => {
+        Database.loadNotes(this.user.uid, snapshot => {
           this.notes = snapshot.val();
         });
       },
 
       updateCategories() {
-        Database.loadCategories(snapshot => {
+        Database.loadCategories(this.user.uid, snapshot => {
           this.categories = snapshot.val();
         });
       }
@@ -70,16 +70,18 @@
       });
 
       Events.on("Note__save--create", note => {
-        const newRef = Database.createNote(note);
+        const newRef = Database.createNote(this.user.uid, note);
         this.updateNotes();
       });
 
       Events.on("Note__save--edit", note => {
-        Database.editNote(note);
+        Database.editNote(this.user.uid, note);
         this.updateNotes();
       });
 
-      Events.on("noteDeleted", key => {
+      Events.on("Note__delete", key => {
+        Database.removeNote(this.user.uid, key);
+
         if (this.selectedNote.key === key) {
           this.selectedNote = null;
         }
@@ -87,16 +89,18 @@
       });
 
       Events.on("Category__create", category => {
-        const newRef = Database.createCategory(category);
+        const newRef = Database.createCategory(this.user.uid, category);
         this.updateCategories();
       });
 
       Auth.onAuthStateChanged(user => {
         this.user = user;
-      });
 
-      this.updateNotes();
-      this.updateCategories();
+        if (user) {
+          this.updateNotes();
+          this.updateCategories();
+        }
+      });
     }
   };
 </script>
