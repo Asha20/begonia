@@ -7821,8 +7821,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   data: function data() {
     return {
-      email: "vukasinstepanovic@gmail.com",
-      password: "123456",
+      email: "",
+      password: "",
 
       authErrorMessage: ""
     };

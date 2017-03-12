@@ -28,8 +28,8 @@
   export default {
     data() {
       return {
-        email: "vukasinstepanovic@gmail.com",
-        password: "123456",
+        email: "",
+        password: "",
 
         authErrorMessage: ""
       }
