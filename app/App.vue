@@ -100,6 +100,8 @@
           this.updateNotes();
           this.updateCategories();
         }
+
+        Events.emit("User__changeState", user);
       });
     }
   };

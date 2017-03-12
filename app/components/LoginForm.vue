@@ -1,13 +1,15 @@
 <template>
   <div class="well">
     <form>
+      <h2>Login</h2>
+
       <div id="login__email-holder" class="form-group">
-        <label for="login__email">Title:</label>
+        <label for="login__email">Email:</label>
         <input type="text" class="form-control" id="login__email" v-model="email">
         <span id="login__email-message" class="help-block hide">This field is required.</span>
       </div>
       <div id="login__password-holder" class="form-group">
-        <label for="login__password">Content:</label>
+        <label for="login__password">Password:</label>
         <input type="password" class="form-control" id="login__password" v-model="password"></input>
         <span id="login__password-message" class="help-block hide">This field is required.</span>
       </div>
