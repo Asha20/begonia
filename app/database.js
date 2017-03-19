@@ -52,12 +52,20 @@ const Database = {
 
   createCategory(uid, category) {
     const newCategory = this.categories(uid).push();
-    newCategory.set(Object.assign({}, category));
+    newCategory.set(Object.assign({}, category, {
+      key: newCategory.key
+    }));
     return newCategory;
   },
 
   removeCategory(uid, key) {
     this.categories(uid).child(key).remove();
+  },
+
+  getCategoryFromKey(uid, key, callback) {
+    return this.categories(uid).child(key)
+      .once("value")
+      .then(callback);
   }
 };
 

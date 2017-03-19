@@ -17,9 +17,9 @@
               <label for="category-editor__color">Content:</label>
               <br>
               <select data-width="100%" class="selectpicker" id="category-editor__color" v-model="color">
-                <option value="none">Pick a color...</option>
-                <option value="red">Red</option>
-                <option value="yellow">Yellow</option>
+                <option v-for="color in colors" :value="color">
+                  {{ color | capitalize}}
+                </option>
               </select>
               <span id="category-editor__color-message" class="help-block hide">You need to pick a color.</span>
             </div>
@@ -41,6 +41,14 @@
   export default {
     data() {
       return {
+        colors: [
+          "red",
+          "yellow",
+          "blue",
+          "green",
+          "purple"
+        ],
+
         name: "",
         color: "none"
       }
@@ -86,6 +94,14 @@
           $("#category-editor__name").focus();
         })
       });
+
+      $("#category-editor__color").selectpicker("refresh");
+    },
+
+    filters: {
+      capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+      }
     }
   };
 </script>

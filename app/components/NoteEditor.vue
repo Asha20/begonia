@@ -23,7 +23,7 @@
               <br>
               <select data-width="100%" class="selectpicker" id="note-editor__category" v-model="selectedCategory">
                 <option value="uncategorized">Uncategorized</option>
-                <option v-for="category in categories" :value="category.name">{{ category.name }}</option>
+                <option v-for="category in categories" :value="category">{{ category.name }}</option>
               </select>
               <span id="note-editor__category-message" class="help-block hide">You need to pick a color.</span>
             </div>
@@ -80,7 +80,10 @@
             {
               title: this.title.trim(),
               content: this.content.trim(),
-              category: this.selectedCategory
+              category: {
+                key: this.selectedCategory.key,
+                color: this.selectedCategory.color
+              }
             },
             // If editing an existing note, also pass
             // the note key to the event so it knows

@@ -29,7 +29,6 @@
 
     created() {
       Events.on("User__changeState", user => {
-        console.log(user);
         this.user = user;
       });
     }

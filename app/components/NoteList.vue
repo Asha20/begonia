@@ -10,6 +10,7 @@
             @click="selectNote(note.key)"
             class="list-group-item"
             :class="[note.key === selected ? 'active' : '']">
+      <div :class="getCategoryMarker(note.category.color)"></div>
       {{ note.title }}
       <div class="btn-group pull-right" role="group" aria-label="Options">
         <!-- Edit button -->
@@ -34,7 +35,7 @@
 
 <script>
   import Events from "../events";
-  import {Database} from "../database";
+  import {Database, Auth} from "../database";
 
   export default {
     props: ["notes"],
@@ -65,7 +66,37 @@
 
       openCategoryEditor() {
         Events.emit("Editor__open--category");
+      },
+
+      getCategory(key) {
+        const uid = Auth.currentUser.uid;
+        Database.getCategoryFromKey(uid, key, category => {
+          console.log(category);
+        })
+      },
+
+      getCategoryMarker(color) {
+        return "pull-left category-marker category-" + color;
       }
     }
   }
 </script>
+
+<style scoped>
+
+  .category-marker {
+    width: 16px;
+    height: 34px;
+    margin-right: 10px;
+  }
+
+  .category-red    {background: red;}
+
+  .category-yellow {background: yellow;}
+
+  .category-blue   {background: blue;}
+
+  .category-green  {background: green;}
+
+  .category-purple {background: purple;}
+</style>
