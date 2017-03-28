@@ -8033,19 +8033,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
-//
-//
-//
-//
-//
 
 exports.default = {
   data: function data() {
     return {
-      colors: ["red", "yellow", "blue", "green", "purple"],
-
       name: "",
-      color: "none"
+      color: "#000000"
     };
   },
 
@@ -8056,10 +8049,6 @@ exports.default = {
         container: $("#category-editor__name-holder"),
         conditions: [this.name.trim() !== ""],
         message: $("#category-editor__name-message")
-      }, {
-        container: $("#category-editor__color-holder"),
-        conditions: [this.color !== "none"],
-        message: $("#category-editor__color-message")
       }];
     }
   },
@@ -8070,12 +8059,12 @@ exports.default = {
         _events2.default.emit(this.mode.name, (0, _assign2.default)({}, {
           name: this.name.trim(),
           color: this.color
-        }, this.mode.name === "Category__save-create" ? {} : {
+        }, this.mode.name === "Category__save--create" ? {} : {
           key: this.mode.category.key
         }));
 
         this.name = "";
-        this.color = "none";
+        this.color = "#000000";
         $("#category-editor").modal("hide");
       }
     }
@@ -8086,6 +8075,7 @@ exports.default = {
 
     _events2.default.on("Editor__open--category", function () {
       _this.name = "";
+      _this.color = "#000000";
       $("#category-editor").modal("show");
       $("#category-editor").on("shown.bs.modal", function () {
         $("#category-editor__name").focus();
@@ -10569,41 +10559,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "category-editor__color"
     }
-  }, [_vm._v("Content:")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('select', {
+  }, [_vm._v("Color:")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
       value: (_vm.color),
       expression: "color"
     }],
-    staticClass: "selectpicker",
     attrs: {
-      "data-width": "100%",
-      "id": "category-editor__color"
+      "type": "color"
+    },
+    domProps: {
+      "value": (_vm.color)
     },
     on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.color = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.color = $event.target.value
       }
     }
-  }, _vm._l((_vm.colors), function(color) {
-    return _c('option', {
-      domProps: {
-        "value": color
-      }
-    }, [_vm._v("\n                " + _vm._s(_vm._f("capitalize")(color)) + "\n              ")])
-  })), _vm._v(" "), _c('span', {
-    staticClass: "help-block hide",
-    attrs: {
-      "id": "category-editor__color-message"
-    }
-  }, [_vm._v("You need to pick a color.")])])])]), _vm._v(" "), _c('div', {
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "modal-footer"
   }, [_c('button', {
     staticClass: "btn btn-default",
@@ -10621,7 +10596,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.confirm()
       }
     }
-  }, [_vm._v("Create Category")])])])])])
+  }, [_vm._v("Confirm")])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "modal-header"
@@ -10892,7 +10867,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('button', {
       staticClass: "list-group-item"
     }, [_c('div', {
-      class: _vm.getCategoryMarker(category.color)
+      staticClass: "pull-left category-marker",
+      style: ({
+        'background-color': category.color
+      })
     }), _vm._v("\n    " + _vm._s(category.name) + "\n    "), _c('div', {
       staticClass: "btn-group pull-right",
       attrs: {
@@ -10948,7 +10926,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_c('div', {
-      class: _vm.getCategoryMarker(note.category.color)
+      staticClass: "pull-left category-marker",
+      style: ({
+        'background-color': note.category.color
+      })
     }), _vm._v("\n    " + _vm._s(note.title) + "\n    "), _c('div', {
       staticClass: "btn-group pull-right",
       attrs: {

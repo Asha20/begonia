@@ -14,20 +14,15 @@
               <span id="category-editor__name-message" class="help-block hide">This field is required.</span>
             </div>
             <div id="category-editor__color-holder" class="form-group">
-              <label for="category-editor__color">Content:</label>
+              <label for="category-editor__color">Color:</label>
               <br>
-              <select data-width="100%" class="selectpicker" id="category-editor__color" v-model="color">
-                <option v-for="color in colors" :value="color">
-                  {{ color | capitalize}}
-                </option>
-              </select>
-              <span id="category-editor__color-message" class="help-block hide">You need to pick a color.</span>
+              <input v-model="color" type="color">
             </div>
-          </form>
+            </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" @click="confirm()">Create Category</button>
+          <button type="button" class="btn btn-primary" @click="confirm()">Confirm</button>
         </div>
       </div>
     </div>
@@ -41,16 +36,8 @@
   export default {
     data() {
       return {
-        colors: [
-          "red",
-          "yellow",
-          "blue",
-          "green",
-          "purple"
-        ],
-
         name: "",
-        color: "none"
+        color: "#000000"
       }
     },
 
@@ -61,11 +48,6 @@
             container: $("#category-editor__name-holder"),
             conditions: [this.name.trim() !== ""],
             message: $("#category-editor__name-message")
-          },
-          {
-            container: $("#category-editor__color-holder"),
-            conditions: [this.color !== "none"],
-            message: $("#category-editor__color-message")
           }
         ];
       }
@@ -80,14 +62,14 @@
               name: this.name.trim(),
               color: this.color,
             },
-            this.mode.name === "Category__save-create" ? {} :
+            this.mode.name === "Category__save--create" ? {} :
             {
               key: this.mode.category.key
             }
           ));
 
           this.name = "";
-          this.color = "none";
+          this.color = "#000000";
           $("#category-editor").modal("hide");
         }
       }
@@ -96,6 +78,7 @@
     created() {
       Events.on("Editor__open--category", () => {
         this.name = "";
+        this.color = "#000000";
         $("#category-editor").modal("show");
         $("#category-editor").on("shown.bs.modal", function() {
           $("#category-editor__name").focus();

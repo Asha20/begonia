@@ -8,7 +8,7 @@
 
     <button v-for="category in categories"
             class="list-group-item">
-      <div :class="getCategoryMarker(category.color)"></div>
+      <div class="pull-left category-marker" :style="{'background-color': category.color}"></div>
       {{ category.name }}
       <div class="btn-group pull-right" role="group" aria-label="Options">
         <!-- Edit button -->
@@ -34,7 +34,7 @@
             @click="selectNote(note.key)"
             class="list-group-item"
             :class="[note.key === selected ? 'active' : '']">
-      <div :class="getCategoryMarker(note.category.color)"></div>
+      <div class="pull-left category-marker" :style="{'background-color': note.category.color}"></div>
       {{ note.title }}
       <div class="btn-group pull-right" role="group" aria-label="Options">
         <!-- Edit button -->
