@@ -132,7 +132,7 @@
 
         $("#note-editor").modal("show");
         $("#note-editor__category").selectpicker("refresh");
-      })
+      });
     }
   };
 </script>

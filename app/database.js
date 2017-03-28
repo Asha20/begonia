@@ -58,6 +58,11 @@ const Database = {
     return newCategory;
   },
 
+  editCategory(uid, category) {
+    this.categories(uid).child(category.key).set(category);
+    return category;
+  },
+
   removeCategory(uid, key) {
     this.categories(uid).child(key).remove();
   },

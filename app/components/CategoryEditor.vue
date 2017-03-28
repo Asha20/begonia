@@ -27,7 +27,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary" @click="createCategory()">Create Category</button>
+          <button type="button" class="btn btn-primary" @click="confirm()">Create Category</button>
         </div>
       </div>
     </div>
@@ -72,12 +72,19 @@
     },
 
     methods: {
-      createCategory() {
+      confirm() {
         if (validate(this.formTests)) {
-          Events.emit("Category__create", {
-            name: this.name.trim(),
-            color: this.color,
-          });
+          Events.emit(this.mode.name, Object.assign(
+            {},
+            {
+              name: this.name.trim(),
+              color: this.color,
+            },
+            this.mode.name === "Category__save-create" ? {} :
+            {
+              key: this.mode.category.key
+            }
+          ));
 
           this.name = "";
           this.color = "none";
@@ -92,10 +99,28 @@
         $("#category-editor").modal("show");
         $("#category-editor").on("shown.bs.modal", function() {
           $("#category-editor__name").focus();
-        })
+        });
+
+        this.mode = {
+          name: "Category__save--create"
+        };
+
+        $("#note-editor__category").selectpicker("refresh");
       });
 
-      $("#category-editor__color").selectpicker("refresh");
+      //
+
+      Events.on("Category__edit", category => {
+        this.name = category.name;
+        this.color = category.color;
+        this.mode = {
+          name: "Category__save--edit",
+          category
+        };
+
+        $("#category-editor").modal("show");
+        $("#category-editor__color").selectpicker("refresh");
+      });
     },
 
     filters: {

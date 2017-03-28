@@ -6,6 +6,30 @@
       Create category
     </button>
 
+    <button v-for="category in categories"
+            class="list-group-item">
+      <div :class="getCategoryMarker(category.color)"></div>
+      {{ category.name }}
+      <div class="btn-group pull-right" role="group" aria-label="Options">
+        <!-- Edit button -->
+        <button class="btn btn-info" @click.stop="editCategory(category)">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        </button>
+        <!-- Delete button -->
+        <button class="btn btn-danger" @click.stop="deleteCategory(category.key)">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+      </div>  
+    </button>
+
+
+    <button class="list-group-item list-group-item-info"
+            @click="openNoteEditor()">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+      Create note
+    </button>
+
+
     <button v-for="note in notes"
             @click="selectNote(note.key)"
             class="list-group-item"
@@ -22,13 +46,6 @@
         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
       </div>
-      
-    </button>
-
-    <button class="list-group-item list-group-item-info"
-            @click="openNoteEditor()">
-      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-      Create note
     </button>
   </div>
 </template>
@@ -38,7 +55,7 @@
   import {Database, Auth} from "../database";
 
   export default {
-    props: ["notes"],
+    props: ["notes", "categories"],
 
     data() {
       return {
@@ -58,6 +75,14 @@
 
       deleteNote(key) {
         Events.emit("Note__delete", key);
+      },
+
+      editCategory(category) {
+        Events.emit("Category__edit", category);
+      },
+
+      deleteCategory(key) {
+        Events.emit("Category__delete", key);
       },
 
       openNoteEditor() {

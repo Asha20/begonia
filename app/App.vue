@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-3">
-          <note-list v-if="user" :notes="notes"></note-list>
+          <note-list v-if="user" :notes="notes" :categories="categories"></note-list>
         </div>
 
         <div class="col-md-offset-1 col-md-8">
@@ -79,6 +79,16 @@
         this.updateNotes();
       });
 
+      Events.on("Category__save--create", category => {
+        const newRef = Database.createCategory(this.user.uid, category);
+        this.updateCategories();
+      });
+
+      Events.on("Category__save--edit", category => {
+        Database.editCategory(this.user.uid, category);
+        this.updateCategories();
+      });
+
       Events.on("Note__delete", key => {
         Database.removeNote(this.user.uid, key);
 
@@ -88,8 +98,8 @@
         this.updateNotes();
       });
 
-      Events.on("Category__create", category => {
-        const newRef = Database.createCategory(this.user.uid, category);
+      Events.on("Category__delete", category => {
+        Database.removeCategory(this.user.uid, category);
         this.updateCategories();
       });
 

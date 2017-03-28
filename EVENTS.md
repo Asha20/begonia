@@ -6,6 +6,8 @@
 | Note__select           | A note has been pressed inside NoteList                                                        | NoteList       | App; NoteDisplay |
 | Note__edit             | The edit button next to a note has been pressed                                                | NoteList       | NoteEditor       |
 | Note__delete           | The delete button next to a note has been pressed                                              | NoteList       | App; NoteDisplay |
+| Category__edit         | The edit button next to a category has been pressed                                            | NoteList       | CategoryEditor   |
+| Category__delete       | The delete button next to a category has been pressed                                          | NoteList       | App              |
 | Editor__open--note     | The “Create Note” button has been pressed                                                      | NoteList       | NoteEditor       |
 | Editor__open--category | The “Create Category” button has been pressed                                                  | NoteList       | CategoryEditor   |
 | User__changeState      | A user is logged in or logged out                                                              | App            | LoginNavigation  |
