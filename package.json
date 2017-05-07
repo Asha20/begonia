@@ -1,14 +1,14 @@
 {
-  "name": "webvue_boilerplate",
+  "name": "Begonia",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple note-taking app.",
   "main": "app/main.js",
   "scripts": {
     "dev": "webpack-dev-server --hot"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Vukašin Stepanović",
+  "license": "MIT",
   "dependencies": {
     "firebase": "^3.7.0",
     "vue": "^2.2.1"
